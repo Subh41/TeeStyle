@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts } from '../../redux/slices/productSlice';
@@ -83,7 +83,7 @@ const Products = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { products, loading, error } = useSelector(state => state.products);
-  const [isDeleting, setIsDeleting] = useState(false);
+
 
   useEffect(() => {
     dispatch(fetchProducts());

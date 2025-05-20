@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { FiCreditCard, FiDollarSign } from 'react-icons/fi';
 import { SiPaypal } from 'react-icons/si';
 import styled from 'styled-components';
@@ -204,7 +204,7 @@ const SuccessMessage = styled.div`
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
   const { items, total } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
   

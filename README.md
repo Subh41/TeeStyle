@@ -130,7 +130,11 @@ The admin dashboard is available at `http://localhost:3000/admin/dashboard`
 
 ## Project Status
 
-This project is complete with all core e-commerce functionality implemented. The application uses a mock backend with local storage for demonstration purposes.
+This project is complete with all core e-commerce functionality implemented. The frontend is deployed on Netlify and accessible at [https://teestyle-shop.windsurf.build](https://teestyle-shop.windsurf.build).
+
+### Deployment Status
+- **Frontend**: Deployed on Netlify
+- **Backend**: Uses mock backend with local storage for demonstration
 
 ## License
 

@@ -133,7 +133,7 @@ const Button = styled.button`
 
 const ProductCard = ({ product, onAddToCart, onAddToWishlist }) => {
   const navigate = useNavigate();
-  const { _id, name, price, image, category, sizes, colors, rating } = product;
+  const { _id, name, price, image, category, sizes, colors } = product;
 
   return (
     <Card>
