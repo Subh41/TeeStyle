@@ -21,20 +21,8 @@ import OrderDetailPage from './pages/OrderDetailPage';
 import CheckoutPage from './pages/CheckoutPage';
 import NotFoundPage from './pages/NotFoundPage';
 
-// Admin pages
-import Dashboard from './pages/admin/Dashboard';
-import Products from './pages/admin/Products';
-import Orders from './pages/admin/Orders';
-import Users from './pages/admin/Users';
-import ProductForm from './pages/admin/ProductForm';
-import DiscountManagement from './pages/admin/DiscountManagement';
-import Promotions from './pages/admin/Promotions';
-import Settings from './pages/admin/Settings';
-import AdminLayout from './components/admin/AdminLayout';
-
 // Route protection
 import ProtectedRoute from './components/routing/ProtectedRoute';
-import AdminRoute from './components/routing/AdminRoute';
 
 function App() {
   return (
@@ -60,20 +48,8 @@ function App() {
                   <Route path="/order/:id" element={<OrderDetailPage />} />
                   <Route path="/checkout" element={<CheckoutPage />} />
                 </Route>
-
-                <Route element={<AdminRoute />}>
-                  <Route path="/admin" element={<AdminLayout />}>
-                    <Route index element={<Dashboard />} />
-                    <Route path="dashboard" element={<Dashboard />} />
-                    <Route path="products" element={<Products />} />
-                    <Route path="product/:id?" element={<ProductForm />} />
-                    <Route path="orders" element={<Orders />} />
-                    <Route path="users" element={<Users />} />
-                    <Route path="discounts" element={<DiscountManagement />} />
-                    <Route path="promotions" element={<Promotions />} />
-                    <Route path="settings" element={<Settings />} />
-                  </Route>
-                </Route>
+                
+                {/* Admin routes removed for security */}
 
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>

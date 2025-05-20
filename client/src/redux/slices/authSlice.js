@@ -23,15 +23,15 @@ const initialState = {
 const mockUsers = [
   {
     _id: '1',
-    name: 'Admin User',
-    email: 'admin@example.com',
+    name: 'John Doe',
+    email: 'john@example.com',
     password: 'password123',
-    role: 'admin',
+    role: 'user',
   },
   {
     _id: '2',
-    name: 'John Doe',
-    email: 'john@example.com',
+    name: 'Jane Smith',
+    email: 'jane@example.com',
     password: 'password123',
     role: 'user',
   },

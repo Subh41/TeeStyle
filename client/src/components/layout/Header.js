@@ -153,14 +153,6 @@ const Header = () => {
               Anime
             </StyledNavLink>
           </motion.div>
-          
-          {user?.role === 'admin' && (
-            <motion.div whileHover="hover" variants={navItemVariants}>
-              <StyledNavLink to="/admin/dashboard" className={isActive('/admin/dashboard') ? 'active' : ''}>
-                Dashboard
-              </StyledNavLink>
-            </motion.div>
-          )}
         </NavLinks>
 
         <div className="right-section">
@@ -290,13 +282,6 @@ const Header = () => {
                     <FiCreditCard />
                     Payment Methods
                   </UserDropdownItem>
-                  
-                  {user.role === 'admin' && (
-                    <UserDropdownItem to="/admin/dashboard">
-                      <RiDashboardLine />
-                      Admin Dashboard
-                    </UserDropdownItem>
-                  )}
                   
                   <UserDropdownButton onClick={handleLogout}>
                     <FiLogOut />
