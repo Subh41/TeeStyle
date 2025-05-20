@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Configure CORS to allow requests from the client
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://127.0.0.1:51028'],
+  origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://127.0.0.1:51028', 'https://tee-style.vercel.app', 'https://teestyle.vercel.app'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
