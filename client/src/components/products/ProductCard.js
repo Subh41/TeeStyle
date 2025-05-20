@@ -285,14 +285,29 @@ const ColorTag = styled.span`
   color: ${({ color, theme }) => {
     // Determine if the background color is light or dark and set text color accordingly
     switch(color.toLowerCase()) {
+      // Dark background colors - use white text
       case 'red': return '#FFFFFF';
       case 'blue': return '#FFFFFF';
       case 'black': return '#FFFFFF';
       case 'green': return '#FFFFFF';
       case 'purple': return '#FFFFFF';
+      case 'navy': return '#FFFFFF';
+      case 'maroon': return '#FFFFFF';
+      case 'teal': return '#FFFFFF';
+      case 'brown': return '#FFFFFF';
+      case 'grey': return '#FFFFFF';
+      case 'gray': return '#FFFFFF';
+      
+      // Light background colors - use dark text
       case 'white': return '#000000';
       case 'yellow': return '#000000';
       case 'orange': return '#000000';
+      case 'silver': return '#000000';
+      case 'gold': return '#000000';
+      case 'pink': return '#000000';
+      case 'cyan': return '#000000';
+      
+      // Default
       default: return theme.colors.white;
     }
   }};
@@ -307,6 +322,16 @@ const ColorTag = styled.span`
       case 'white': return '#F5F5F5'; // White Wolf white
       case 'yellow': return '#FFC107'; // Wolverine yellow
       case 'orange': return '#FF9800'; // The Thing orange
+      case 'grey': return '#757575'; // War Machine grey
+      case 'gray': return '#757575'; // War Machine grey (alternate spelling)
+      case 'brown': return '#795548'; // Groot brown
+      case 'navy': return '#0D47A1'; // Captain Marvel navy
+      case 'silver': return '#BDBDBD'; // Silver Surfer silver
+      case 'gold': return '#FFD700'; // Iron Man gold
+      case 'maroon': return '#B71C1C'; // Deadpool maroon
+      case 'teal': return '#00796B'; // Aquaman teal
+      case 'pink': return '#EC407A'; // Gwenpool pink
+      case 'cyan': return '#00BCD4'; // Mr. Freeze cyan
       default: return '#E53935'; // Default to Iron Man red
     }
   }};
