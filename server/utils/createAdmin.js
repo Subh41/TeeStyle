@@ -10,7 +10,7 @@ mongoose
     
     try {
       // Import the User model
-      const User = require('../models/userModel');
+      const User = require('../models/User');
       
       // Check if admin user already exists
       const adminExists = await User.findOne({ email: 'admin@example.com' });

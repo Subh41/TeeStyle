@@ -7,20 +7,31 @@ import Message from '../../components/ui/Message';
 const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.md};
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 `;
 
 const Title = styled.h1`
-  margin-bottom: ${({ theme }) => theme.spacing.xl};
-  color: ${({ theme }) => theme.colors.text.primary};
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  color: ${({ theme }) => theme.colors.white};
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  font-size: 1.8rem;
+  text-align: center;
+  padding: ${({ theme }) => theme.spacing.md} 0;
 `;
 
 const Table = styled.table`
   width: 100%;
-  background: ${({ theme }) => theme.colors.white};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  box-shadow: ${({ theme }) => theme.shadows.sm};
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-collapse: collapse;
+  margin-top: ${({ theme }) => theme.spacing.md};
+  overflow: hidden;
 `;
 
 const Th = styled.th`

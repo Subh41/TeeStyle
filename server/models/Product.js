@@ -24,10 +24,41 @@ const productSchema = new mongoose.Schema({
       message: 'Discount price ({VALUE}) should be below regular price'
     }
   },
-  category: {
+  // T-Shirt type categories
+  tShirtType: {
     type: String,
-    required: [true, 'A product must have a category'],
-    enum: ['men', 'women', 'accessories', 'footwear', 'electronics']
+    required: [true, 'A product must have a t-shirt type'],
+    enum: [
+      'Oversized',
+      'Acid Wash',
+      'Graphic Printed',
+      'Solid Color',
+      'Polo T-Shirts',
+      'Sleeveless',
+      'Long Sleeve',
+      'Henley',
+      'Hooded',
+      'Crop Tops'
+    ]
+  },
+  // Comic-based theme categories
+  comicTheme: {
+    type: String,
+    required: [true, 'A product must have a comic theme'],
+    enum: [
+      'Marvel Universe',
+      'DC Comics',
+      'Anime Superheroes',
+      'Classic Comics',
+      'Sci-Fi & Fantasy',
+      'Video Game Characters',
+      'Custom Fan Art'
+    ]
+  },
+  gender: {
+    type: String,
+    required: [true, 'A product must specify a gender category'],
+    enum: ['men', 'women', 'unisex']
   },
   tags: [String],
   sizes: [String],
@@ -53,6 +84,19 @@ const productSchema = new mongoose.Schema({
     default: 0
   },
   featured: {
+    type: Boolean,
+    default: false
+  },
+  // Additional fields for the superhero theme
+  heroCharacter: {
+    type: String,
+    trim: true
+  },
+  universe: {
+    type: String,
+    trim: true
+  },
+  limitedEdition: {
     type: Boolean,
     default: false
   },

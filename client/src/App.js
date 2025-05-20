@@ -27,6 +27,9 @@ import Products from './pages/admin/Products';
 import Orders from './pages/admin/Orders';
 import Users from './pages/admin/Users';
 import ProductForm from './pages/admin/ProductForm';
+import DiscountManagement from './pages/admin/DiscountManagement';
+import Promotions from './pages/admin/Promotions';
+import Settings from './pages/admin/Settings';
 import AdminLayout from './components/admin/AdminLayout';
 
 // Route protection
@@ -66,6 +69,9 @@ function App() {
                     <Route path="product/:id?" element={<ProductForm />} />
                     <Route path="orders" element={<Orders />} />
                     <Route path="users" element={<Users />} />
+                    <Route path="discounts" element={<DiscountManagement />} />
+                    <Route path="promotions" element={<Promotions />} />
+                    <Route path="settings" element={<Settings />} />
                   </Route>
                 </Route>
 

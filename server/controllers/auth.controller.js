@@ -1,6 +1,11 @@
-const User = require('../models/userModel');
+const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
+const { OAuth2Client } = require('google-auth-library');
+const Coupon = require('../models/Coupon');
+
+// Initialize Google OAuth client
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // Generate JWT token
 const signToken = (id, email, isAdmin = false) => {
@@ -231,22 +236,149 @@ exports.getMe = async (req, res) => {
   }
 };
 
+// Google Login functionality
+exports.googleLogin = async (req, res) => {
+  try {
+    const { tokenId } = req.body;
+    
+    if (!tokenId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Google token ID is required'
+      });
+    }
+
+    // Verify the Google token
+    const response = await client.verifyIdToken({
+      idToken: tokenId,
+      audience: process.env.GOOGLE_CLIENT_ID
+    });
+    
+    const { email_verified, name, email, picture } = response.payload;
+    
+    if (!email_verified) {
+      return res.status(400).json({
+        success: false,
+        message: 'Google email not verified'
+      });
+    }
+    
+    // Check if user already exists
+    let user = await User.findOne({ email });
+    
+    if (user) {
+      // User exists, log them in
+      const token = signToken(user._id, user.email, user.role === 'admin');
+      
+      return res.status(200).json({
+        success: true,
+        token,
+        user: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          avatar: user.avatar || picture,
+          superheroAvatar: user.superheroAvatar
+        }
+      });
+    } else {
+      // Create new user with Google info
+      const newUser = new User({
+        name,
+        email,
+        googleId: response.payload.sub,
+        avatar: picture,
+        role: 'user',
+        // No password required for Google login
+      });
+      
+      await newUser.save();
+      
+      const token = signToken(newUser._id, newUser.email, false);
+      
+      return res.status(201).json({
+        success: true,
+        token,
+        user: {
+          _id: newUser._id,
+          name: newUser.name,
+          email: newUser.email,
+          role: newUser.role,
+          avatar: newUser.avatar,
+          superheroAvatar: newUser.superheroAvatar
+        }
+      });
+    }
+  } catch (error) {
+    console.error('Google login error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Google authentication failed',
+      error: process.env.NODE_ENV === 'development' ? error.message : 'Server error'
+    });
+  }
+};
+
 // Update user profile
 exports.updateProfile = async (req, res) => {
   try {
-    const { name, email } = req.body;
-    
-    // Find user and update
-    const updatedUser = await User.findByIdAndUpdate(
-      req.user.id,
-      { name, email },
-      { new: true, runValidators: true }
-    );
-    
-    res.status(200).json({
-      success: true,
-      user: updatedUser
-    });
+    const user = await User.findById(req.user.id);
+
+    if (user) {
+      user.name = req.body.name || user.name;
+      // Only allow email update for non-Google users
+      if (!user.googleId) {
+        user.email = req.body.email || user.email;
+      }
+
+      // Update superhero avatar if provided
+      if (req.body.superheroAvatar) {
+        user.superheroAvatar = {
+          ...user.superheroAvatar,
+          ...req.body.superheroAvatar
+        };
+      }
+
+      // Update avatar URL if provided
+      if (req.body.avatar) {
+        user.avatar = req.body.avatar;
+      }
+
+      // Update notification preferences if provided
+      if (req.body.notifications) {
+        user.notifications = {
+          ...user.notifications,
+          ...req.body.notifications
+        };
+      }
+
+      // Update password only for non-Google users
+      if (req.body.password && !user.googleId) {
+        user.password = req.body.password;
+      }
+
+      const updatedUser = await user.save();
+
+      res.status(200).json({
+        success: true,
+        user: {
+          _id: updatedUser._id,
+          name: updatedUser.name,
+          email: updatedUser.email,
+          avatar: updatedUser.avatar,
+          superheroAvatar: updatedUser.superheroAvatar,
+          notifications: updatedUser.notifications,
+          referralCode: updatedUser.referralCode,
+          isAdmin: updatedUser.role === 'admin'
+        }
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
   } catch (error) {
     res.status(500).json({
       success: false,

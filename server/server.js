@@ -63,9 +63,12 @@ console.log('Initializing database connection...');
 const mongooseOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 5000, // Shorter timeout for faster fallback
-  socketTimeoutMS: 45000,
-  family: 4 // Use IPv4, skip trying IPv6
+  serverSelectionTimeoutMS: 30000, // Longer timeout for reliable connection
+  socketTimeoutMS: 60000,
+  family: 4, // Use IPv4, skip trying IPv6
+  connectTimeoutMS: 30000, // Longer timeout for connection attempts
+  keepAlive: true,
+  keepAliveInitialDelay: 300000 // 5 minutes
 };
 
 // Create a variable to track connection status
@@ -223,10 +226,32 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Try connecting to local MongoDB first
+// Function to connect to MongoDB Atlas
+const connectToMongoDBAtlas = () => {
+  console.log('Attempting to connect to MongoDB Atlas...');
+  global.mongoose = mongoose;
+  const ATLAS_URI = 'mongodb+srv://subh:<PASSWORD>@cluster0.mkoolxy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+  mongoose.connect(ATLAS_URI, mongooseOptions)
+    .then(async () => {
+      console.log('Connected to MongoDB Atlas successfully');
+      isConnectedToMongoDB = true;
+      
+      // Import ensure admin function
+      const ensureAdminExists = require('./utils/ensureAdmin');
+      
+      // Ensure admin user exists
+      await ensureAdminExists();
+    })
+    .catch(err => {
+      console.error('MongoDB Atlas connection error:', err);
+      console.log('Falling back to local MongoDB...');
+      connectToLocalMongoDB();
+    });
+};
+
+// Function to connect to local MongoDB as fallback
 const connectToLocalMongoDB = () => {
   console.log('Attempting to connect to local MongoDB...');
-  global.mongoose = mongoose;
   mongoose.connect(process.env.MONGO_URI, mongooseOptions)
     .then(async () => {
       console.log('Connected to local MongoDB successfully');
@@ -244,5 +269,5 @@ const connectToLocalMongoDB = () => {
     });
 };
 
-// Initial connection attempt to local MongoDB
-connectToLocalMongoDB();
+// Initial connection attempt to MongoDB Atlas
+connectToMongoDBAtlas();

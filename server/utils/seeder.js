@@ -1,42 +1,86 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
+require('dotenv').config({ path: '../.env' });
 const { users, products } = require('./seedData');
-const User = require('../models/userModel');
-const Product = require('../models/productModel');
+const User = require('../models/User');
+const Product = require('../models/Product');
 
-// Connect to MongoDB
-mongoose
-  .connect(process.env.MONGO_URI || 'mongodb://localhost:27017/e-commerce', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('MongoDB connected for seeding'))
-  .catch(err => {
-    console.error('MongoDB connection error:', err);
-    process.exit(1);
-  });
+// Set up mongoose connection options
+const mongooseOptions = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 30000,
+  socketTimeoutMS: 60000,
+  family: 4,
+  connectTimeoutMS: 30000
+};
 
-// Import data into DB
+// Try to connect to MongoDB Atlas first, then fall back to local MongoDB
+const connectToDatabase = async () => {
+  try {
+    console.log('Attempting to connect to MongoDB Atlas...');
+    const ATLAS_URI = 'mongodb+srv://subh:zidiomdb@cluster0.mkoolxy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+    await mongoose.connect(ATLAS_URI, mongooseOptions);
+    console.log('Connected to MongoDB Atlas successfully');
+    return true;
+  } catch (atlasError) {
+    console.error('MongoDB Atlas connection error:', atlasError.message);
+    console.log('Falling back to local MongoDB...');
+    
+    try {
+      await mongoose.connect(process.env.MONGO_URI, mongooseOptions);
+      console.log('Connected to local MongoDB successfully');
+      return true;
+    } catch (localError) {
+      console.error('Local MongoDB connection error:', localError.message);
+      return false;
+    }
+  }
+};
+
+// Import data to database
 const importData = async () => {
   try {
-    // Clear existing data
-    await User.deleteMany();
-    await Product.deleteMany();
+    // Connect to the database
+    const connected = await connectToDatabase();
+    if (!connected) {
+      console.error('Failed to connect to any database. Cannot proceed with seeding.');
+      process.exit(1);
+    }
+
+    console.log('MongoDB connected...');
+
+    // Delete existing data
+    await User.deleteMany({});
+    console.log('Users deleted...');
     
-    console.log('Data cleared');
-    
-    // Insert new data
+    await Product.deleteMany({});
+    console.log('Products deleted...');
+
+    // Create users
     const createdUsers = await User.insertMany(users);
-    const adminUser = createdUsers[0]._id;
+    console.log('Users imported...');
     
-    const sampleProducts = products.map(product => {
-      return { ...product, user: adminUser };
-    });
+    // Create products with proper user references
+    const adminUser = createdUsers.find(user => user.isAdmin);
     
-    await Product.insertMany(sampleProducts);
+    // Update product user references
+    const productsWithUpdatedRefs = products.map(product => ({
+      ...product,
+      user: adminUser._id
+    }));
     
-    console.log('Data imported successfully!');
-    process.exit();
+    // Create products in smaller batches to avoid timeouts
+    const batchSize = 2;
+    for (let i = 0; i < productsWithUpdatedRefs.length; i += batchSize) {
+      const batch = productsWithUpdatedRefs.slice(i, i + batchSize);
+      await Product.insertMany(batch);
+      console.log(`Imported products ${i+1} to ${Math.min(i+batchSize, productsWithUpdatedRefs.length)}...`);
+    }
+
+    console.log('All data imported successfully!');
+    await mongoose.disconnect();
+    process.exit(0);
   } catch (error) {
     console.error(`Error importing data: ${error.message}`);
     process.exit(1);

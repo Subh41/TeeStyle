@@ -8,19 +8,29 @@ import styled from 'styled-components';
 const Container = styled.div`
   max-width: 800px;
   margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.md};
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 `;
 
 const Title = styled.h1`
-  margin-bottom: ${({ theme }) => theme.spacing.xl};
-  color: ${({ theme }) => theme.colors.text.primary};
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  color: ${({ theme }) => theme.colors.white};
+  text-align: center;
+  font-size: 1.8rem;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  padding: ${({ theme }) => theme.spacing.md} 0;
 `;
 
 const Form = styled.form`
-  background: ${({ theme }) => theme.colors.white};
-  padding: ${({ theme }) => theme.spacing.xl};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  box-shadow: ${({ theme }) => theme.shadows.md};
+  background: rgba(255, 255, 255, 0.9);
+  padding: ${({ theme }) => theme.spacing.lg};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
 `;
 
 const FormGroup = styled.div`

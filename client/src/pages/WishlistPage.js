@@ -141,7 +141,7 @@ const WishlistPage = () => {
         <EmptyWishlist>
           <h2>Your wishlist is empty</h2>
           <p>Add some products to your wishlist and they will show up here</p>
-          <ShopButton to="/products">Continue Shopping</ShopButton>
+          <ShopButton to="/">Continue Shopping</ShopButton>
         </EmptyWishlist>
       </Container>
     );

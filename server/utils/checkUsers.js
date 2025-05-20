@@ -10,7 +10,7 @@ mongoose
     
     try {
       // Import the User model
-      const User = require('../models/userModel');
+      const User = require('../models/User');
       
       // Check if any users exist
       const users = await User.find({});

@@ -14,6 +14,9 @@ const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: ${({ theme }) => theme.spacing.xl};
+  position: relative;
+  z-index: 10;
+  margin-bottom: 50px;
 `;
 
 const Hero = styled.div`
@@ -65,12 +68,40 @@ const HeroButton = styled(Link)`
 
 const Section = styled.section`
   margin-bottom: ${({ theme }) => theme.spacing.xxl};
+  background: rgba(0, 0, 0, 0.3);
+  padding: ${({ theme }) => theme.spacing.xl};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 202, 40, 0.1);
+  border: 1px solid rgba(255, 202, 40, 0.3);
+  position: relative;
+  
+  /* Add starry effect */
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    opacity: 0.3;
+    z-index: -1;
+  }
 `;
 
 const SectionTitle = styled.h2`
   text-align: center;
   margin-bottom: ${({ theme }) => theme.spacing.xl};
-  color: ${({ theme }) => theme.colors.text.primary};
+  color: ${({ theme }) => theme.colors.white};
+  font-size: 2.2rem;
+  text-shadow: 0 0 10px rgba(255, 202, 40, 0.5);
+  font-family: ${({ theme }) => theme.typography.heading.fontFamily};
+  position: relative;
+  padding-bottom: 15px;
+  
+  /* Removed yellow underline */
 `;
 
 const CenterLoader = styled.div`
@@ -83,8 +114,12 @@ const CenterLoader = styled.div`
 const ProductGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: ${({ theme }) => theme.spacing.lg};
-  margin-bottom: ${({ theme }) => theme.spacing.xxl};
+  gap: ${({ theme }) => theme.spacing.xl};
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.lg};
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  border: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
 const HomePage = () => {
@@ -112,11 +147,11 @@ const HomePage = () => {
         <HeroText>
           Discover amazing products at competitive prices. Shop with confidence and enjoy a seamless experience.
         </HeroText>
-        <HeroButton to="/products">Shop Now</HeroButton>
+        <HeroButton to="#featured-products">Shop Now</HeroButton>
       </Hero>
 
       <Container>
-        <Section>
+        <Section id="featured-products">
           <SectionTitle>Featured Products</SectionTitle>
           {loading ? (
             <CenterLoader>
