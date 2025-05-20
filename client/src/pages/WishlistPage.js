@@ -8,13 +8,30 @@ import { FiShoppingCart, FiTrash2 } from 'react-icons/fi';
 
 const Container = styled.div`
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 100px auto 2rem; /* Added top margin to account for fixed header */
   padding: ${({ theme }) => theme.spacing.xl};
+  color: ${({ theme }) => theme.colors.text.light};
 `;
 
 const Title = styled.h1`
   margin-bottom: ${({ theme }) => theme.spacing.xl};
-  color: ${({ theme }) => theme.colors.text.primary};
+  color: ${({ theme }) => theme.colors.secondary};
+  font-family: ${({ theme }) => theme.typography.heading.fontFamily};
+  text-shadow: ${({ theme }) => theme.effects.textShadow.starlight};
+  font-size: 2.5rem;
+  letter-spacing: 1px;
+  position: relative;
+  display: inline-block;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, ${({ theme }) => theme.colors.secondary}, transparent);
+  }
 `;
 
 const EmptyWishlist = styled.div`

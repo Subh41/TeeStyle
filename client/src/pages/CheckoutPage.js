@@ -7,13 +7,30 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 100px auto 2rem; /* Added top margin to account for fixed header */
   padding: 2rem;
+  color: ${({ theme }) => theme.colors.text.light};
 `;
 
 const Title = styled.h1`
   margin-bottom: 2rem;
-  color: #333;
+  color: ${({ theme }) => theme.colors.secondary};
+  font-family: ${({ theme }) => theme.typography.heading.fontFamily};
+  text-shadow: ${({ theme }) => theme.effects.textShadow.starlight};
+  font-size: 2.5rem;
+  letter-spacing: 1px;
+  position: relative;
+  display: inline-block;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, ${({ theme }) => theme.colors.secondary}, transparent);
+  }
 `;
 
 const Grid = styled.div`
@@ -27,11 +44,43 @@ const Grid = styled.div`
 `;
 
 const Section = styled.div`
-  background: #fff;
+  background: ${({ theme }) => `linear-gradient(135deg, ${theme.colors.background.starry}, ${theme.colors.background.deeper})`};
   padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  box-shadow: ${({ theme }) => theme.shadows.md};
   margin-bottom: 1.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  
+  /* Comic book style border */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to right, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 5%, rgba(255,255,255,0) 95%, rgba(255,255,255,0.1) 100%);
+    background-size: 100% 100%;
+    pointer-events: none;
+    z-index: 2;
+  }
+  
+  /* Starry background effect */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: 1;
+  }
 `;
 
 const Form = styled.form`
@@ -40,31 +89,64 @@ const Form = styled.form`
 `;
 
 const FormGroup = styled.div`
+  position: relative;
+  z-index: 5;
+  
   label {
     display: block;
     margin-bottom: 0.5rem;
-    color: #666;
+    color: ${({ theme }) => theme.colors.secondary};
+    font-weight: 600;
+    font-family: ${({ theme }) => theme.typography.heading.fontFamily};
+    letter-spacing: 0.5px;
   }
 
-  input {
+  input, select, textarea {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: ${({ theme }) => theme.borderRadius.md};
     font-size: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    color: ${({ theme }) => theme.colors.text.light};
+    transition: all 0.3s ease;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
 
     &:focus {
       outline: none;
-      border-color: #4CAF50;
+      border-color: ${({ theme }) => theme.colors.secondary};
+      box-shadow: 0 0 10px rgba(255, 202, 40, 0.3);
+    }
+    
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
     }
   }
 `;
 
 const OrderSummary = styled.div`
+  position: relative;
+  z-index: 5;
+  
   h2 {
     margin: 0;
     margin-bottom: 1.5rem;
-    color: #333;
+    color: ${({ theme }) => theme.colors.secondary};
+    font-family: ${({ theme }) => theme.typography.heading.fontFamily};
+    text-shadow: 0 0 10px rgba(255, 202, 40, 0.5);
+    letter-spacing: 0.5px;
+    position: relative;
+    display: inline-block;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, ${({ theme }) => theme.colors.secondary}, transparent);
+    }
   }
 `;
 
@@ -73,37 +155,70 @@ const SummaryItem = styled.div`
   justify-content: space-between;
   margin-bottom: 0.75rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid #eee;
-  color: #666;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: ${({ theme }) => theme.colors.text.light};
+  position: relative;
+  z-index: 5;
 
   &:last-child {
     margin-bottom: 0;
     padding-bottom: 0;
     border-bottom: none;
-    color: #333;
-    font-weight: 600;
+    color: ${({ theme }) => theme.colors.secondary};
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-shadow: 0 0 5px rgba(255, 202, 40, 0.5);
   }
 `;
 
 const Button = styled.button`
   width: 100%;
-  padding: 0.75rem;
-  background: #4CAF50;
+  padding: 0.85rem;
+  background: linear-gradient(135deg, ${({ theme }) => theme.colors.heroRed}, ${({ theme }) => theme.colors.villainPurple});
   color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 500;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: ${({ theme }) => theme.typography.heading.fontFamily};
   cursor: pointer;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 5;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 202, 40, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: all 0.5s ease;
+  }
 
   &:hover {
-    background: #388E3C;
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 202, 40, 0.3);
+    
+    &::before {
+      left: 100%;
+    }
+  }
+  
+  &:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   }
   
   &:disabled {
-    background: #9E9E9E;
+    opacity: 0.7;
     cursor: not-allowed;
+    background: linear-gradient(135deg, #666, #444);
   }
 `;
 

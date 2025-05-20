@@ -198,17 +198,41 @@ const Header = () => {
 
           <div className="nav-icons">
             <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.95 }}>
-              <StyledNavLink to="/wishlist" className={isActive('/wishlist') ? 'active' : ''}>
-                <FiHeart />
-                {wishlistCount > 0 && <CartBadge>{wishlistCount}</CartBadge>}
-              </StyledNavLink>
+              <div style={{ position: 'relative', margin: '0 15px' }}>
+                <StyledNavLink 
+                  to="/wishlist" 
+                  className={isActive('/wishlist') ? 'active' : ''}
+                  style={{ 
+                    position: 'relative', 
+                    display: 'inline-block', 
+                    padding: '10px'
+                  }}
+                >
+                  <FiHeart size={22} />
+                </StyledNavLink>
+                {wishlistCount > 0 && (
+                  <CartBadge>{wishlistCount}</CartBadge>
+                )}
+              </div>
             </motion.div>
 
             <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.95 }}>
-              <StyledNavLink to="/cart" className={`cart-icon ${isActive('/cart') ? 'active' : ''}`}>
-                <FiShoppingCart />
-                {cartItemsCount > 0 && <CartBadge>{cartItemsCount}</CartBadge>}
-              </StyledNavLink>
+              <div style={{ position: 'relative', margin: '0 15px' }}>
+                <StyledNavLink 
+                  to="/cart" 
+                  className={`cart-icon ${isActive('/cart') ? 'active' : ''}`}
+                  style={{ 
+                    position: 'relative', 
+                    display: 'inline-block', 
+                    padding: '10px'
+                  }}
+                >
+                  <FiShoppingCart size={22} />
+                </StyledNavLink>
+                {cartItemsCount > 0 && (
+                  <CartBadge>{cartItemsCount}</CartBadge>
+                )}
+              </div>
             </motion.div>
 
             <div style={{ position: 'relative', zIndex: 1500 }}>

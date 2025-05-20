@@ -315,24 +315,34 @@ export const UserMenu = styled.div`
   }
 `;
 
-export const CartBadge = styled.span`
+export const CartBadge = styled.div`
   position: absolute;
-  top: -8px;
-  right: -8px;
-  background: linear-gradient(135deg, ${({ theme }) => theme.colors.heroRed}, ${({ theme }) => theme.colors.villainPurple});
-  color: ${({ theme }) => theme.colors.white};
-  font-size: 0.75rem;
+  top: -10px;
+  right: -10px;
+  background: ${({ theme }) => theme.colors.heroRed};
+  color: white;
+  font-size: 12px;
   font-weight: 700;
-  padding: 3px 8px;
-  border-radius: ${({ theme }) => theme.borderRadius.full};
-  min-width: 18px;
+  padding: 0;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  box-shadow: 0 0 8px rgba(211, 47, 47, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  font-family: ${({ theme }) => theme.typography.heading.fontFamily};
-  animation: pulse 2s infinite;
+  box-shadow: 0 0 10px rgba(211, 47, 47, 0.8);
+  border: 2px solid white;
+  font-family: Arial, sans-serif;
+  z-index: 9999;
+  transform: translate(0, 0);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  overflow: visible;
+  animation: badgePulse 2s infinite;
   
-  @keyframes pulse {
+  @keyframes badgePulse {
     0% {
       transform: scale(1);
       box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.7);
