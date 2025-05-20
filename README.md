@@ -1,6 +1,5 @@
 # TeeStyle - Superhero-Themed E-Commerce Platform
 
-![TeeStyle Banner](https://via.placeholder.com/800x200/0A1929/FFD700?text=TeeStyle+Superhero+T-Shirts)
 
 A MERN stack e-commerce application specializing in t-shirts featuring superhero designs with an immersive UI inspired by Starry Night and Comic Superheroes theme. The platform offers a comprehensive shopping experience with robust admin management, and secure checkout features.
 
